@@ -1,21 +1,28 @@
 package unab.edu.co.abrahamcaceres.taller_github
 
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -24,23 +31,48 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
+private val ProfileScreenBackground = Color(0xFF1A1B2E)
+private val AccentBlue = Color(0xFF2196F3)
+private val LabelGray = Color(0xFF757575)
+private val CardWhite = Color.White
+private val BodyDark = Color(0xFF212121)
+
 @Preview(showBackground = true, showSystemUi = true)
+@Composable
+fun ProfileScreen() {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState())
+                .padding(horizontal = 20.dp)
+                .padding(top = 24.dp, bottom = 32.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            ProfileCard()
+        }
+    }
+}
+
 @Composable
 fun ProfileCard() {
     Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(16.dp),
-        colors = CardDefaults.cardColors(containerColor = Color.White), // Fondo blanco para que resalten los textos
-        elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
-        shape = RoundedCornerShape(24.dp)
+        modifier = Modifier.fillMaxWidth(),
+        colors = CardDefaults.cardColors(containerColor = CardWhite),
+        elevation = CardDefaults.cardElevation(defaultElevation = 0.dp),
+        shape = RoundedCornerShape(28.dp)
     ) {
         Column(
             modifier = Modifier
@@ -50,8 +82,8 @@ fun ProfileCard() {
         ) {
             Box(
                 modifier = Modifier
-                    .size(110.dp)
-                    .border(2.dp, MaterialTheme.colorScheme.primary, CircleShape)
+                    .size(120.dp)
+                    .border(2.dp, AccentBlue, CircleShape)
                     .padding(4.dp)
             ) {
                 Image(
@@ -67,55 +99,78 @@ fun ProfileCard() {
             Spacer(modifier = Modifier.height(16.dp))
 
             Text(
-                text = "Abraham Acevedo",
+                text = "Juan Pérez",
                 style = MaterialTheme.typography.headlineMedium,
-                fontWeight = FontWeight.Bold
+                fontWeight = FontWeight.Bold,
+                color = BodyDark
             )
 
-            // 3. Rol / Cargo
             Text(
-                text = "Android Developer",
+                text = "Desarrollador Móvil Jr.",
                 style = MaterialTheme.typography.bodyLarge,
-                color = MaterialTheme.colorScheme.primary
+                color = AccentBlue
             )
 
-            Spacer(modifier = Modifier.height(16.dp))
-            HorizontalDivider(thickness = 1.dp, color = Color.LightGray)
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(20.dp))
 
-            // --- 4. DATOS PERSONALES DETALLADOS ---
-            PersonalDataSection(label = "EDAD", value = "25 años")
-            PersonalDataSection(label = "CORREO", value = "abraham.acevedo@ejemplo.com")
-            PersonalDataSection(label = "CIUDAD", value = "Madrid, España")
+            PersonalDataSection(label = "EDAD", value = "20 años")
+            PersonalDataSection(label = "CORREO", value = "[email protected]", isEmail = true)
+            PersonalDataSection(label = "CIUDAD", value = "Bucaramanga, Colombia")
+
+            Spacer(modifier = Modifier.height(20.dp))
+
+            Text(
+                text = "SOBRE MI MATERIA FAVORITA",
+                style = MaterialTheme.typography.titleSmall,
+                fontWeight = FontWeight.SemiBold,
+                color = LabelGray,
+                modifier = Modifier.fillMaxWidth()
+            )
 
             Spacer(modifier = Modifier.height(8.dp))
-            HorizontalDivider(thickness = 1.dp, color = Color.LightGray)
-            Spacer(modifier = Modifier.height(16.dp))
 
-            Text(
-                text = "Apasionado por crear interfaces modernas y eficientes con Kotlin y Jetpack Compose.",
-                style = MaterialTheme.typography.bodyMedium,
-                lineHeight = 20.sp,
-                modifier = Modifier.fillMaxWidth(),
-                textAlign = TextAlign.Start
-            )
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .heightIn(max = 120.dp)
+                    .verticalScroll(rememberScrollState())
+            ) {
+                Text(
+                    text = "Me apasiona el Desarrollo de Aplicaciones Móviles porque permite transformar ideas en herramientas tangibles que las personas usan a diario. Me encanta el reto de diseñar interfaces intuitivas.",
+                    style = MaterialTheme.typography.bodyMedium,
+                    lineHeight = 20.sp,
+                    color = BodyDark,
+                    modifier = Modifier.fillMaxWidth(),
+                    textAlign = TextAlign.Start
+                )
+            }
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            // 6. Botón Inferior estilizado
             Button(
-                onClick = { /* Acción aquí */ },
-                modifier = Modifier.fillMaxWidth().height(50.dp),
-                shape = RoundedCornerShape(12.dp)
+                onClick = { },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(52.dp),
+                shape = RoundedCornerShape(14.dp),
+                colors = ButtonDefaults.buttonColors(containerColor = AccentBlue)
             ) {
-                Text(text = "Contactar conmigo")
+                Text(
+                    text = "Contactar conmigo",
+                    fontWeight = FontWeight.Bold
+                )
             }
         }
     }
 }
 
 @Composable
-fun PersonalDataSection(label: String, value: String) {
+fun PersonalDataSection(
+    label: String,
+    value: String,
+    isEmail: Boolean = false
+) {
+    val context = LocalContext.current
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -125,13 +180,28 @@ fun PersonalDataSection(label: String, value: String) {
         Text(
             text = label,
             style = MaterialTheme.typography.labelSmall,
-            fontWeight = FontWeight.ExtraBold,
-            color = Color.Gray
+            fontWeight = FontWeight.Bold,
+            color = LabelGray
         )
-        Text(
-            text = value,
-            style = MaterialTheme.typography.bodyLarge,
-            color = Color.Black
-        )
+        if (isEmail) {
+            Text(
+                text = value,
+                style = MaterialTheme.typography.bodyLarge,
+                color = AccentBlue,
+                textDecoration = TextDecoration.Underline,
+                modifier = Modifier.clickable {
+                    val intent = Intent(Intent.ACTION_SENDTO).apply {
+                        data = Uri.parse("mailto:$value")
+                    }
+                    context.startActivity(Intent.createChooser(intent, null))
+                }
+            )
+        } else {
+            Text(
+                text = value,
+                style = MaterialTheme.typography.bodyLarge,
+                color = BodyDark
+            )
+        }
     }
 }
