@@ -37,11 +37,11 @@ fun ProfileCard() {
             modifier = Modifier
                 .padding(24.dp)
                 .fillMaxWidth(),
-            horizontalAlignment = Alignment.CenterHorizontally // Alineación central
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
             // 1. Imagen Circular
             Image(
-                painter = painterResource(id = android.R.drawable.ic_menu_gallery), // Cambia por tu imagen
+                painter = painterResource(id = R.drawable.profile),
                 contentDescription = "Foto de perfil",
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
