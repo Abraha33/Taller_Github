@@ -6,7 +6,7 @@ plugins {
 
 android {
     namespace = "unab.edu.co.abrahamcaceres.taller_github"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "unab.edu.co.abrahamcaceres.taller_github"
